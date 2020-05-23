@@ -5,6 +5,9 @@ function writeToFile(fileName, data) {}
 function init() {
 	// get input from users
 	// -- use inquirer
+	const inquirer = require('inquirer');
+
+	inquirer.prompt([{}]);
 	// after we get input from users, make api call to github
 	// -- use axios
 	// -- the rest of this should inside the axios then block
