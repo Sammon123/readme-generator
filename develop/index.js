@@ -7,61 +7,66 @@ function init() {
 	// -- use inquirer
 	const inquirer = require('inquirer');
 
-	inquirer.prompt([
-		{
-			type: 'input',
-			name: 'title',
-			message: 'project title?',
-		},
-		{
-			type: 'input',
-			name: 'description',
-			message: 'description?',
-		},
-		{
-			type: 'input',
-			name: 'table of contents',
-			message: 'table of contents?',
-		},
-		{
-			type: 'input',
-			name: 'installation',
-			message: 'installation?',
-		},
-		{
-			type: 'input',
-			name: 'usage',
-			message: 'usage?',
-		},
-		{
-			type: 'input',
-			name: 'license',
-			message: 'license?',
-		},
-		{
-			type: 'input',
-			name: 'contributing',
-			message: 'any contributions?',
-		},
-		{
-			type: 'input',
-			name: 'tests',
-			message: 'tests?',
-		},
-		{
-			type: 'input',
-			name: 'question',
-			message: 'github profile?',
-		},
-		{
-			type: 'input',
-			name: 'another question',
-			message: 'github email address?',
-		},
-	]);
-	// after we get input from users, make api call to github
-	// -- use axios
-	// -- the rest of this should inside the axios then block
+	inquirer
+		.prompt([
+			{
+				type: 'input',
+				name: 'title',
+				message: 'project title?',
+			},
+			{
+				type: 'input',
+				name: 'description',
+				message: 'description?',
+			},
+			{
+				type: 'input',
+				name: 'table of contents',
+				message: 'table of contents?',
+			},
+			{
+				type: 'input',
+				name: 'installation',
+				message: 'installation?',
+			},
+			{
+				type: 'input',
+				name: 'usage',
+				message: 'usage?',
+			},
+			{
+				type: 'input',
+				name: 'license',
+				message: 'license?',
+			},
+			{
+				type: 'input',
+				name: 'contributing',
+				message: 'any contributions?',
+			},
+			{
+				type: 'input',
+				name: 'tests',
+				message: 'tests?',
+			},
+			{
+				type: 'input',
+				name: 'question',
+				message: 'github profile?',
+			},
+			{
+				type: 'input',
+				name: 'another question',
+				message: 'github email address?',
+			},
+		])
+		// after we get input from users, make api call to github
+		// -- use axios
+		.then(function (data) {
+			const url = `https://api.github.com/users/${data.username}/`;
+		});
+
+	// -- the rest of this should be inside the axios then block
 	// collect additional data from github response
 	// send all of the data to the generateData markdown function to collect the formatted markdown
 	// user the generateMarkdown function
