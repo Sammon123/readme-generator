@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const axios = require('axios');
+const fs = require('fs');
 
 const generateMarkdown = require('./utils/generateMarkdown');
 const questions = [];
@@ -54,31 +55,34 @@ function init() {
 			},
 			{
 				type: 'input',
-				name: 'question',
+				name: 'username',
 				message: 'github profile?',
 			},
 			{
 				type: 'input',
-				name: 'another question',
+				name: 'email',
 				message: 'github email address?',
 			},
 		])
 		// after we get input from users, make api call to github
-		.then(({ username }) => {
-			const url = `https://api.github.com/users/${username}/`;
+		.then(({ username, email }) => {
+			const url = `https://api.github.com/users/${username}/repos?per_page=100`;
 			// -- use axios
 			axios
 				.get(url)
 				// -- the rest of this should be inside the axios then block
 				.then((response) => {
-					console.log(response);
+					console.log(response.data);
+					// collect additional data from github response
+					const repoNames = response.data.map((repo) => {
+						return { username, email };
+					});
 				})
 				.catch((err) => {
 					console.log(err);
 				});
 		});
 
-	// collect additional data from github response
 	// send all of the data to the generateData markdown function to collect the formatted markdown
 	// use the generateMarkdown function
 	// const markdown = generateMarkdown(data, response)
