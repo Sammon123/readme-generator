@@ -67,17 +67,9 @@ function init() {
 		.then(({ username }) => {
 			const url = `https://api.github.com/users/${username}/`;
 			// -- use axios
-			axios
-				.get(url)
-				.then((response) => {
-					console.log(response);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+			axios.get(url);
+			// -- the rest of this should be inside the axios then block
 		});
-
-	// -- the rest of this should be inside the axios then block
 
 	// collect additional data from github response
 	// send all of the data to the generateData markdown function to collect the formatted markdown
