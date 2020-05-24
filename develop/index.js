@@ -1,11 +1,14 @@
+const inquirer = require('inquirer');
+const axios = require('axios');
+
+const generateMarkdown = require('./utils/generateMarkdown');
 const questions = [];
 
-function writeToFile(fileName, data) {}
+function writeToFile(response, data) {}
 
 function init() {
 	// get input from users
 	// -- use inquirer
-	const inquirer = require('inquirer');
 
 	inquirer
 		.prompt([
@@ -61,15 +64,24 @@ function init() {
 			},
 		])
 		// after we get input from users, make api call to github
-		// -- use axios
-		.then(function (data) {
-			const url = `https://api.github.com/users/${data.username}/`;
+		.then(({ username }) => {
+			const url = `https://api.github.com/users/${username}/`;
+			// -- use axios
+			axios
+				.get(url)
+				.then((response) => {
+					console.log(response);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		});
 
 	// -- the rest of this should be inside the axios then block
+
 	// collect additional data from github response
 	// send all of the data to the generateData markdown function to collect the formatted markdown
-	// user the generateMarkdown function
+	// use the generateMarkdown function
 	// const markdown = generateMarkdown(data, response)
 	// create the markdown file with the formatted markdown
 	// use markdown
