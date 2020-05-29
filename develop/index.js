@@ -1,11 +1,11 @@
-const inquirer = require('inquirer');
-const axios = require('axios');
 const fs = require('fs');
+const axios = require('axios');
+const inquirer = require('inquirer');
 
-const generateMarkdown = require('./utils/generateMarkdown');
-const questions = [];
+// const generateMarkdown = require('./utils/generateMarkdown');
+// const questions = [];
 
-function writeToFile(response, data) {}
+// function writeToFile(response, data) {}
 
 function init() {
 	// get input from users
@@ -65,17 +65,24 @@ function init() {
 			},
 		])
 		// after we get input from users, make api call to github
-		.then(({ username, email }) => {
+		.then(({ username }) => {
 			const url = `https://api.github.com/users/${username}/repos?per_page=100`;
 			// -- use axios
 			axios
 				.get(url)
 				// -- the rest of this should be inside the axios then block
 				.then((response) => {
-					console.log(response.data);
-					// collect additional data from github response
-					const repoNames = response.data.map((repo) => {
-						return { username, email };
+					// console.log(response.data);
+					let repoNames = response.login((repo) => {
+						return repo.name;
+					});
+					// create the markdown file with the formatted markdown
+					let repoNamesString = repoNames.join('\n');
+					fs.writeFile('generated.md', repoNamesString, (err) => {
+						if (err) {
+							throw err;
+						}
+						console.log('file has been saved!');
 					});
 				})
 				.catch((err) => {
@@ -86,7 +93,6 @@ function init() {
 	// send all of the data to the generateData markdown function to collect the formatted markdown
 	// use the generateMarkdown function
 	// const markdown = generateMarkdown(data, response)
-	// create the markdown file with the formatted markdown
 	// use markdown
 }
 
