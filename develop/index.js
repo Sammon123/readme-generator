@@ -1,14 +1,7 @@
 const fs = require('fs');
 const util = require('util');
 const inquirer = require('inquirer');
-// const axios = require('axios');
 const writeFileAsync = util.promisify(fs.writeFile);
-
-// const generateMarkdown = require('./utils/generateMarkdown');
-// const questions = [];
-
-// function writeToFile(response, data) {}
-
 // get input from users
 // -- use inquirer
 
@@ -66,6 +59,7 @@ function init() {
 		},
 	]);
 }
+// function to return the input to the user
 function generatedMarkdown(answers) {
 	return `
 	${answers.title}
@@ -88,49 +82,21 @@ function generatedMarkdown(answers) {
 	
 	${answers.email}`;
 }
+// call for the init function
 init()
+	// have response inside a .then block
 	.then(function (answers) {
+		// set var for the generated markdown function
 		const md = generatedMarkdown(answers);
+		// returning data back to the file
 
 		return writeFileAsync('generated.md', md);
 	})
+	// set a then function
 	.then(function () {
-		console.log('Successfully wrote to index.html');
+		console.log('Successfully wrote to generated.md');
 	})
+	// and catch something if there are any errors
 	.catch(function (err) {
 		console.log(err);
 	});
-// after we get input from users, make api call to github
-// 			.then(({ username }) => {
-// 				const url = `https://api.github.com/users/${data.username}/repos?per_page=100`;
-// 				// -- use axios
-// 				axios
-// 					.get(url)
-// 					// -- the rest of this should be inside the axios then block
-// 					.then((response) => {
-// 						// console.log(response.data);
-// 						let repoNames = response.data.map((repo) => {
-// 							return repo.name;
-// 							// return response.email;
-// 						});
-// 						// create the markdown file with the formatted markdown
-// 						let repoNamesString = repoNames.join('\n');
-// 						fs.writeFile('generated.md', repoNamesString, (err) => {
-// 							if (err) {
-// 								throw err;
-// 							}
-// 							console.log(`Saved ${repoNames.length} repos`);
-// 						});
-// 					})
-// 					.catch((err) => {
-// 						console.log(err);
-// 					});
-// 			})
-// 	);
-
-// // send all of the data to the generateData markdown function to collect the formatted markdown
-// // use the generateMarkdown function
-// // const markdown = generateMarkdown(data, response)
-// // use markdown
-
-// init();
